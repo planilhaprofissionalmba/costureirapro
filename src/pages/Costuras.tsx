@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Download, MessageCircle, Plus, Search } from 'lucide-react'
+import { Download, MessageCircle, Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { EmptyState, ErrorState, Loading, PageHeader, StatusBadge } from '../components/ui'
 import { SyncedTable } from '../components/SyncedTable'
 import { WhatsAppDialog } from '../components/WhatsAppDialog'
 import { useLista, usePreferencias } from '../lib/hooks'
+import { apagar } from '../lib/db'
+import { useToast } from '../lib/toast'
 import { ordemAberta, rotuloStatus, STATUS_ORDEM } from '../lib/costura'
 import { compararNome, diasEntre, formatDateBR, formatHora, hojeISO, moeda } from '../lib/format'
 import { exportCsv } from '../lib/export'
@@ -16,6 +18,7 @@ export function CosturasPage() {
   const navigate = useNavigate()
   const { rows, loading, error, reload } = useLista<OrdemResumo>('ordens_resumo', 'select=*&order=data_entrega.asc')
   const { prefs } = usePreferencias()
+  const { push } = useToast()
   const [filtro, setFiltro] = useState<Filtro>('abertas')
   const [busca, setBusca] = useState('')
   const [whats, setWhats] = useState<OrdemResumo | null>(null)
@@ -35,6 +38,14 @@ export function CosturasPage() {
       .filter((o) => !t || o.cliente_nome.toLowerCase().includes(t) || String(o.numero) === t || (o.resumo_pecas || '').toLowerCase().includes(t))
       .sort((a, b) => compararNome(a.cliente_nome, b.cliente_nome) || a.data_entrega.localeCompare(b.data_entrega))
   }, [rows, filtro, busca, hoje])
+
+  async function excluir(o: OrdemResumo) {
+    if (!window.confirm(`Excluir a costura nº ${o.numero} de ${o.cliente_nome} e as peças dela? Os pagamentos ficam no caixa, sem ligação.`)) return
+    const r = await apagar('ordens', o.id)
+    if (r.error) return push('error', r.error)
+    push('ok', 'Costura excluída.')
+    void reload()
+  }
 
   function exportar() {
     exportCsv(
@@ -66,7 +77,7 @@ export function CosturasPage() {
     <div className="page">
       <PageHeader
         title="Costuras"
-        sub="Peças recebidas para ajuste, reforma e confecção. Toque numa linha para abrir."
+        sub="Peças recebidas para ajuste, reforma e confecção. Toque no lápis para editar ou na lixeira para excluir."
         actions={
           <>
             <Link className="btn btn-primary" to="/app/costuras/nova">
@@ -122,7 +133,7 @@ export function CosturasPage() {
                 <th>Situação</th>
                 <th>Total</th>
                 <th>Falta pagar</th>
-                <th>Avisar</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -149,17 +160,42 @@ export function CosturasPage() {
                     <td>{moeda(o.valor_total)}</td>
                     <td className={Number(o.saldo) > 0 ? 'txt-erro' : 'txt-ok'}>{moeda(o.saldo)}</td>
                     <td>
-                      <button
-                        className="btn btn-whats btn-sm"
-                        type="button"
-                        disabled={!o.cliente_telefone}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setWhats(o)
-                        }}
-                      >
-                        <MessageCircle size={16} />
-                      </button>
+                      <div className="acoes-linha">
+                        <button
+                          className="btn btn-whats btn-sm"
+                          type="button"
+                          aria-label="Avisar pelo WhatsApp"
+                          disabled={!o.cliente_telefone}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setWhats(o)
+                          }}
+                        >
+                          <MessageCircle size={16} />
+                        </button>
+                        <button
+                          className="icon-btn icon-btn--claro"
+                          type="button"
+                          aria-label="Editar costura"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            navigate(`/app/costuras/${o.id}`)
+                          }}
+                        >
+                          <Pencil size={18} />
+                        </button>
+                        <button
+                          className="icon-btn icon-btn--claro"
+                          type="button"
+                          aria-label="Excluir costura"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            void excluir(o)
+                          }}
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 )
