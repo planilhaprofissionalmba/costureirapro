@@ -233,3 +233,10 @@
   body { background: #FFFCF2; }
   .recibo-via { break-inside: avoid; }
 }
+
+/* Landing: os 3 passos sempre lado a lado a partir de 768 px (pedido da usuária) */
+@media (min-width: 768px) {
+  .landing-grid.landing-grid--3 { grid-template-columns: repeat(3, 1fr); }
+}
+/* Faixa Instalar app (PWA): título centralizado como o texto e o botão */
+.landing-pwa-band .section-title { text-align: center; justify-content: center; }
