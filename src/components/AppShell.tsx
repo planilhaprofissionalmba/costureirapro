@@ -32,7 +32,8 @@ import { useToast } from '../lib/toast'
 import { BrandLockup } from './BrandLockup'
 import { Footer } from './Footer'
 
-const DESKTOP_MQ = '(min-width: 1024px)'
+// Hover do menu: computador (≥ 1024 px) ou qualquer tela com mouse de verdade
+const DESKTOP_MQ = '(min-width: 1024px), (hover: hover) and (pointer: fine)'
 
 type NavItem = {
   to: string
@@ -207,7 +208,13 @@ export function AppShell() {
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
-        <div className="topbar-menu-hint" aria-hidden="true">
+        <div
+          className="topbar-menu-hint"
+          aria-hidden="true"
+          onMouseEnter={() => {
+            if (isDesktop) openMenu()
+          }}
+        >
           <strong>MENU</strong>
           <span>Toque no ícone ☰ para navegar</span>
         </div>

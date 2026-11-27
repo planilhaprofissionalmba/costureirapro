@@ -240,3 +240,6 @@
 }
 /* Faixa Instalar app (PWA): título centralizado como o texto e o botão */
 .landing-pwa-band .section-title { text-align: center; justify-content: center; }
+
+/* Menu (Prompt §Abrir e fechar): faixa de aproximação mais larga e ativa sempre que houver mouse */
+.drawer-hotzone { display: block; width: 24px; }
