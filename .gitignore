@@ -1,0 +1,27 @@
+node_modules
+dist
+dist-ssr
+.DS_Store
+.vercel
+.env
+.env.local
+.env.*.local
+*.local
+!.env.example
+supabase/.temp/
+tmp-*
+tmp/
+# Chave privada JWT do PrdPro — nunca no Git (só secret Edge)
+docs/jwt/*-private.jwk.json
+docs/jwt/*-private*.json
+
+# Arquivo morto local (tmp-* antigos e sobras) — fora do Git
+_arquivo_morto/
+
+# Vídeos / dumps / material local — fora do Git e do deploy
+MARKETING/**/*.mp4
+*.mp4
+!videos/
+!videos/**
+PRDPRO_*.sql
+planejador do curso da pos e spec kit/
