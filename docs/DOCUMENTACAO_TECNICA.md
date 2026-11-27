@@ -860,8 +860,8 @@ Lixeira na linha → confirmação → apaga a costura e as peças → lançamen
 | TC005 | Costura com 2 peças | `ordens` + 2 `ordem_itens` | OK |
 | TC006 | Envio de WhatsApp | Linha em `envios_whatsapp`; janela fecha | OK |
 | TC007 | Excluir costura na lista | Costura e peças apagadas; caixa mantido | OK |
-| TC007A | Entregar costura com saldo, sem marcar "vai pagar depois" | Entrega bloqueada com aviso | OK |
-| TC007B | Entregar recebendo tudo | Entrada paga no Caixa; costura Entregue | OK |
+| TC007A | Entregar costura com saldo, sem marcar "vai pagar depois" | Entrega bloqueada com aviso | A testar |
+| TC007B | Entregar recebendo tudo | Entrada paga no Caixa; costura Entregue | A testar |
 | TC008 | Menu no computador | Abre ao aproximar o mouse e fecha ao sair | OK |
 | TC009 | Build na Vercel | Status `success` | OK |
 
