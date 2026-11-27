@@ -73,7 +73,6 @@ BEGIN
   RETURN NEW;
 END;
 $$;
-DROP TRIGGER IF EXISTS profiles_enforce_role ON costureirapro.profiles;
 CREATE TRIGGER profiles_enforce_role BEFORE INSERT OR UPDATE ON costureirapro.profiles
   FOR EACH ROW EXECUTE FUNCTION costureirapro.enforce_profile_role();
 
@@ -110,7 +109,6 @@ BEGIN
   RETURN NEW;
 END;
 $$;
-DROP TRIGGER IF EXISTS factory_admins_license ON costureirapro.factory_admins;
 CREATE TRIGGER factory_admins_license AFTER INSERT ON costureirapro.factory_admins
   FOR EACH ROW EXECUTE FUNCTION costureirapro.factory_admin_license();
 
@@ -192,7 +190,6 @@ DO $$
 DECLARE t text;
 BEGIN
   FOREACH t IN ARRAY ARRAY['companies','accounts','profiles','licenses'] LOOP
-    EXECUTE format('DROP TRIGGER IF EXISTS %I_updated_at ON costureirapro.%I', t, t);
     EXECUTE format('CREATE TRIGGER %I_updated_at BEFORE UPDATE ON costureirapro.%I FOR EACH ROW EXECUTE FUNCTION costureirapro.set_updated_at()', t, t);
   END LOOP;
   -- RLS ligado em todas as tabelas de auth/log, sem policy: só a Edge (service_role) acessa.

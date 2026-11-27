@@ -89,7 +89,6 @@ BEGIN
   RETURN NEW;
 END;
 $$;
-DROP TRIGGER IF EXISTS ordens_numero_trg ON costureirapro.ordens;
 CREATE TRIGGER ordens_numero_trg BEFORE INSERT ON costureirapro.ordens
   FOR EACH ROW EXECUTE FUNCTION costureirapro.ordens_numero();
 
@@ -184,7 +183,6 @@ BEGIN
   RETURN OLD;
 END;
 $$;
-DROP TRIGGER IF EXISTS movimentos_estoque_sync_trg ON costureirapro.movimentos_estoque;
 CREATE TRIGGER movimentos_estoque_sync_trg AFTER INSERT OR UPDATE OR DELETE ON costureirapro.movimentos_estoque
   FOR EACH ROW EXECUTE FUNCTION costureirapro.movimentos_estoque_sync();
 
@@ -287,7 +285,6 @@ DECLARE t text;
 BEGIN
   FOREACH t IN ARRAY ARRAY['clientes','medidas','servicos','ordens','ordem_itens','produtos','compras',
                            'lancamentos','compromissos','preferencias'] LOOP
-    EXECUTE format('DROP TRIGGER IF EXISTS %I_updated_at ON costureirapro.%I', t, t);
     EXECUTE format('CREATE TRIGGER %I_updated_at BEFORE UPDATE ON costureirapro.%I FOR EACH ROW EXECUTE FUNCTION costureirapro.set_updated_at()', t, t);
   END LOOP;
 END $$;
@@ -302,7 +299,6 @@ BEGIN
     EXECUTE format('REVOKE ALL ON costureirapro.%I FROM PUBLIC, anon, authenticated', t);
     EXECUTE format('GRANT SELECT, INSERT, UPDATE, DELETE ON costureirapro.%I TO anon', t);
     EXECUTE format('GRANT ALL ON costureirapro.%I TO service_role', t);
-    EXECUTE format('DROP POLICY IF EXISTS cracha_dono ON costureirapro.%I', t);
   END LOOP;
 END $$;
 
