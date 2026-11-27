@@ -26,8 +26,8 @@ export function PendenciasPage() {
   const [novo, setNovo] = useState<'entrada' | 'saida' | null>(null)
 
   const devendo = useMemo(() => [...ordens.rows].sort((a, b) => compararNome(a.cliente_nome, b.cliente_nome) || a.numero - b.numero), [ordens.rows])
-  const receber = agend.rows.filter((l) => l.tipo === 'entrada').sort((a, b) => (a.data_vencimento || '').localeCompare(b.data_vencimento || ''))
-  const pagar = agend.rows.filter((l) => l.tipo === 'saida').sort((a, b) => (a.data_vencimento || '').localeCompare(b.data_vencimento || ''))
+  const receber = agend.rows.filter((l) => l.tipo === 'entrada').sort((a, b) => compararNome(a.descricao, b.descricao) || (a.data_vencimento || '').localeCompare(b.data_vencimento || ''))
+  const pagar = agend.rows.filter((l) => l.tipo === 'saida').sort((a, b) => compararNome(a.descricao, b.descricao) || (a.data_vencimento || '').localeCompare(b.data_vencimento || ''))
   const totDevendo = devendo.reduce((s, o) => s + Number(o.saldo), 0)
   const totReceber = receber.reduce((s, l) => s + Number(l.valor), 0)
   const totPagar = pagar.reduce((s, l) => s + Number(l.valor), 0)

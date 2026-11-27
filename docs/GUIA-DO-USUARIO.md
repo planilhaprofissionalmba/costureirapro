@@ -333,6 +333,9 @@ Quando o dinheiro entrar ou sair, toque em Recebi ou Paguei: ele vai para o Caix
 
 1. Você digita a senha atual, a nova senha e repete a nova. O olho mostra ou esconde o que você digitou.
 2. A senha precisa ter 8 caracteres ou mais, com pelo menos 1 letra e 1 número.
+3. Autenticador: no primeiro acesso o app mostra um QR. Instale o Google Authenticator ou o Microsoft Authenticator no celular, toque em + e aponte a câmera para o QR. Digite os 6 números. Isso só é pedido uma vez.
+4. Esqueci a senha: na tela de entrada toque em Esqueci senha, digite o e-mail, o código de 6 números do autenticador e a nova senha. Não enviamos e-mail para isso.
+5. Perdi o celular do autenticador: fale com o suporte pelo WhatsApp. A administração reseta e você cadastra um QR novo (apague antes a entrada antiga do CostureiraPro no celular).
 
 **Como cria:**
 

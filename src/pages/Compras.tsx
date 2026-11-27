@@ -129,7 +129,7 @@ export function ComprasPage() {
     )
   }
 
-  const ordenadas = [...compras.rows].sort((a, b) => b.data_compra.localeCompare(a.data_compra) || compararNome(a.fornecedor || '', b.fornecedor || ''))
+  const ordenadas = [...compras.rows].sort((a, b) => compararNome(a.fornecedor || 'Sem fornecedor', b.fornecedor || 'Sem fornecedor') || b.data_compra.localeCompare(a.data_compra))
 
   return (
     <div className="page">

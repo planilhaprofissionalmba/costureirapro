@@ -177,33 +177,6 @@ export function ComeceAquiPage() {
         </button>
       </GuiaCard>
 
-      <GuiaCard title="Senha, autenticador e segurança">
-        <ol>
-          <li>
-            <strong>Autenticador:</strong> no primeiro acesso o app mostra um QR. Instale o Google Authenticator ou o Microsoft
-            Authenticator no celular, toque em + e aponte a câmera para o QR. Digite os 6 números que aparecerem. Isso só é pedido
-            uma vez.
-          </li>
-          <li>
-            <strong>Trocar a senha:</strong> menu → Alterar Senha (senha atual + nova + repetir).
-          </li>
-          <li>
-            <strong>Esqueci a senha:</strong> na tela de entrada toque em Esqueci senha, digite o e-mail, o código de 6 números do
-            autenticador e a nova senha. Não enviamos e-mail para isso.
-          </li>
-          <li>
-            <strong>Perdi o celular do autenticador:</strong> fale com o suporte pelo WhatsApp. A administração reseta e você
-            cadastra um QR novo (apague a entrada antiga do {APP_NAME} no celular antes).
-          </li>
-          <li>
-            <strong>Sair:</strong> menu → Sair. Depois de 30 minutos sem uso o app sai sozinho, para proteger seus dados.
-          </li>
-          <li>
-            Os <Link to="/app/termos">Termos de Uso</Link> e a <Link to="/app/lgpd">Privacidade / LGPD</Link> ficam no menu.
-          </li>
-        </ol>
-      </GuiaCard>
-
       <GuiaCard title="Onde olhar o resumo — lembrete">
         <p>
           O resumo geral é o <Link to="/app/dashboard">Painel</Link>: entregas de hoje, atrasadas, prontas para avisar, clientes

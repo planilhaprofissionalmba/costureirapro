@@ -201,9 +201,38 @@ export function AgendaPage() {
             <button className="icon-btn icon-btn--claro" type="button" aria-label="Mês anterior" onClick={() => mudarMes(-1)}>
               <ChevronLeft size={22} />
             </button>
-            <strong>
-              {NOMES_MES[mes.getMonth()]} {mes.getFullYear()}
-            </strong>
+            <div className="agenda-selects">
+              <select
+                aria-label="Mês"
+                value={mes.getMonth()}
+                onChange={(e) => {
+                  const novo = new Date(mes.getFullYear(), Number(e.target.value), 1)
+                  setMes(novo)
+                  setDia(isoLocal(novo))
+                }}
+              >
+                {NOMES_MES.map((n, i) => (
+                  <option key={n} value={i}>
+                    {n}
+                  </option>
+                ))}
+              </select>
+              <select
+                aria-label="Ano"
+                value={mes.getFullYear()}
+                onChange={(e) => {
+                  const novo = new Date(Number(e.target.value), mes.getMonth(), 1)
+                  setMes(novo)
+                  setDia(isoLocal(novo))
+                }}
+              >
+                {Array.from({ length: 7 }, (_, i) => new Date().getFullYear() - 3 + i).map((a) => (
+                  <option key={a} value={a}>
+                    {a}
+                  </option>
+                ))}
+              </select>
+            </div>
             <button className="icon-btn icon-btn--claro" type="button" aria-label="Próximo mês" onClick={() => mudarMes(1)}>
               <ChevronRight size={22} />
             </button>
