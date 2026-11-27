@@ -82,7 +82,11 @@ export function WhatsAppDialog({
         }}
       />
       {link ? (
-        <a className="btn btn-whats btn-full" href={link} target="_blank" rel="noreferrer" onClick={() => void registrar()}>
+        <a className="btn btn-whats btn-full" href={link} target="_blank" rel="noreferrer" onClick={() => {
+            void registrar()
+            // Fecha a janela de envio logo depois de abrir o WhatsApp (pedido da usuária)
+            window.setTimeout(onClose, 0)
+          }}>
           <MessageCircle size={18} /> Abrir no WhatsApp
         </a>
       ) : (
