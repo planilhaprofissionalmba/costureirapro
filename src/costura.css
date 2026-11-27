@@ -243,3 +243,12 @@
 
 /* Menu (Prompt §Abrir e fechar): faixa de aproximação mais larga e ativa sempre que houver mouse */
 .drawer-hotzone { display: block; width: 24px; }
+
+/* Configurações: os 3 cards do topo alinhados e com a mesma altura, como na Administração de acessos */
+@media (min-width: 1024px) {
+  .config-top { align-items: stretch; }
+}
+.config-top > .card,
+.config-top > #alterar-senha > .card { margin: 0; height: 100%; display: flex; flex-direction: column; }
+.config-top > #alterar-senha { display: flex; flex-direction: column; }
+.config-top > #instalar-app > .btn { margin-top: auto; }
