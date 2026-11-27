@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Download, MessageCircle, Pencil, Plus, Search, Trash2 } from 'lucide-react'
+import { Download, MessageCircle, PackageCheck, Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { EmptyState, ErrorState, Loading, PageHeader, StatusBadge } from '../components/ui'
 import { SyncedTable } from '../components/SyncedTable'
 import { WhatsAppDialog } from '../components/WhatsAppDialog'
+import { EntregaDialog } from '../components/EntregaDialog'
 import { useLista, usePreferencias } from '../lib/hooks'
 import { apagar } from '../lib/db'
 import { useToast } from '../lib/toast'
@@ -22,6 +23,7 @@ export function CosturasPage() {
   const [filtro, setFiltro] = useState<Filtro>('abertas')
   const [busca, setBusca] = useState('')
   const [whats, setWhats] = useState<OrdemResumo | null>(null)
+  const [entregar, setEntregar] = useState<OrdemResumo | null>(null)
   const hoje = hojeISO()
 
   const filtradas = useMemo(() => {
@@ -77,7 +79,7 @@ export function CosturasPage() {
     <div className="page">
       <PageHeader
         title="Costuras"
-        sub="Peças recebidas para ajuste, reforma e confecção. Toque no lápis para editar ou na lixeira para excluir."
+        sub="Peças recebidas para ajuste, reforma e confecção. Use a caixa ✓ para entregar e receber, o lápis para editar e a lixeira para excluir."
         actions={
           <>
             <Link className="btn btn-primary" to="/app/costuras/nova">
@@ -160,11 +162,26 @@ export function CosturasPage() {
                     <td>{moeda(o.valor_total)}</td>
                     <td className={Number(o.saldo) > 0 ? 'txt-erro' : 'txt-ok'}>{moeda(o.saldo)}</td>
                     <td>
-                      <div className="acoes-linha">
+                      <div className="acoes-linha acoes-linha--tabela">
+                        {ordemAberta(o.status) ? (
+                          <button
+                            className="icon-btn icon-btn--claro"
+                            type="button"
+                            aria-label="Entregar e receber"
+                            title="Entregar e receber"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setEntregar(o)
+                            }}
+                          >
+                            <PackageCheck size={18} />
+                          </button>
+                        ) : null}
                         <button
                           className="btn btn-whats btn-sm"
                           type="button"
                           aria-label="Avisar pelo WhatsApp"
+                          title="WhatsApp"
                           disabled={!o.cliente_telefone}
                           onClick={(e) => {
                             e.stopPropagation()
@@ -177,6 +194,7 @@ export function CosturasPage() {
                           className="icon-btn icon-btn--claro"
                           type="button"
                           aria-label="Editar costura"
+                          title="Editar"
                           onClick={(e) => {
                             e.stopPropagation()
                             navigate(`/app/costuras/${o.id}`)
@@ -188,6 +206,7 @@ export function CosturasPage() {
                           className="icon-btn icon-btn--claro"
                           type="button"
                           aria-label="Excluir costura"
+                          title="Excluir"
                           onClick={(e) => {
                             e.stopPropagation()
                             void excluir(o)
@@ -205,6 +224,7 @@ export function CosturasPage() {
         </SyncedTable>
       )}
       <p className="field-hint">{filtradas.length} costura(s)</p>
+      {entregar ? <EntregaDialog ordem={entregar} onClose={() => setEntregar(null)} onEntregue={() => void reload()} /> : null}
       {whats ? (
         <WhatsAppDialog
           alvo={whats}

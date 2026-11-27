@@ -252,3 +252,16 @@
 .config-top > #alterar-senha > .card { margin: 0; height: 100%; display: flex; flex-direction: column; }
 .config-top > #alterar-senha { display: flex; flex-direction: column; }
 .config-top > #instalar-app > .btn { margin-top: auto; }
+
+/* Tabelas ocupam toda a largura do card (sem faixa vazia reservada à direita) */
+.table-wrap { scrollbar-gutter: auto; }
+/* Ações da linha sempre lado a lado, sem quebrar */
+.acoes-linha--tabela { flex-wrap: nowrap; gap: 0.15rem; }
+.acoes-linha--tabela .btn-whats { min-width: 44px; padding: 0.35rem; justify-content: center; }
+
+/* Entrega da costura */
+.entrega-resumo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+.entrega-resumo > div { border: 1px solid var(--pp-bege); border-radius: 8px; padding: 0.5rem 0.6rem; display: grid; gap: 0.1rem; }
+.entrega-resumo small { font-size: 0.75rem; color: var(--pp-petroleo); }
+.check-line { display: flex; align-items: flex-start; gap: 0.5rem; min-height: 44px; font-size: 0.9rem; color: var(--pp-petroleo); cursor: pointer; }
+.check-line input { width: 20px; height: 20px; margin-top: 0.1rem; flex: 0 0 auto; }

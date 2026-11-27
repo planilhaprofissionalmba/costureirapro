@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { ErrorState, Field, ListaOpcoes, Loading, Modal, MoneyInput, PageHeader, StatusBadge } from '../components/ui'
 import { WhatsAppDialog } from '../components/WhatsAppDialog'
+import { EntregaDialog } from '../components/EntregaDialog'
 import { useAuth } from '../lib/auth'
 import { apagar, atualizar, buscar, inserir, listar } from '../lib/db'
 import { useLista, usePreferencias } from '../lib/hooks'
@@ -68,6 +69,8 @@ export function CosturaFormPage() {
   const [busy, setBusy] = useState(false)
   const [resumo, setResumo] = useState<OrdemResumo | null>(null)
   const [whats, setWhats] = useState<TipoMensagem | null>(null)
+  const [entregar, setEntregar] = useState(false)
+  const [versaoPag, setVersaoPag] = useState(0)
 
   useEffect(() => {
     if (!editando && !entregaTocada) setEntrega(somarDias(recebimento, prazo))
@@ -237,6 +240,11 @@ export function CosturaFormPage() {
 
   async function mudarStatus(novo: StatusOrdem) {
     if (!id) return
+    // Entregar passa pela conferência do pagamento e entrada no caixa
+    if (novo === 'entregue' && status !== 'entregue' && resumo) {
+      setEntregar(true)
+      return
+    }
     const r = await atualizar('ordens', id, { status: novo, data_entregue: novo === 'entregue' ? hojeISO() : null })
     if (r.error) return push('error', r.error)
     setStatus(novo)
@@ -508,13 +516,24 @@ export function CosturaFormPage() {
 
       {editando && id && resumo ? (
         <>
-          <PagamentosOrdem ordem={resumo} onChange={() => void carregarResumo(id)} />
+          <PagamentosOrdem key={versaoPag} ordem={resumo} onChange={() => void carregarResumo(id)} />
           <MaterialUsado ordemId={id} />
         </>
       ) : null}
 
       {whats && resumo ? (
         <WhatsAppDialog alvo={resumo} prefs={prefs} tipoInicial={whats} onClose={() => setWhats(null)} />
+      ) : null}
+      {entregar && resumo && id ? (
+        <EntregaDialog
+          ordem={resumo}
+          onClose={() => setEntregar(false)}
+          onEntregue={() => {
+            setStatus('entregue')
+            setVersaoPag((v) => v + 1)
+            void carregarResumo(id)
+          }}
+        />
       ) : null}
       <ListaOpcoes id="lista-pecas" opcoes={TIPOS_PECA} />
       <ListaOpcoes id="lista-servicos" opcoes={TIPOS_SERVICO} />

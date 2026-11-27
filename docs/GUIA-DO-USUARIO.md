@@ -113,6 +113,8 @@ O Painel não edita. Toque em uma costura da lista para abrir e editar.
 2. Cada linha mostra a cliente, as peças, a data de entrega, a situação, o total e quanto falta pagar. Linha com marca vermelha está atrasada.
 3. O botão de WhatsApp na linha abre a mensagem pronta para a cliente.
 4. Situações: Recebida → Costurando → Aguardando prova → Pronta para entregar → Entregue.
+5. Para entregar, toque na caixa ✓ da linha (ou em Entregue dentro da costura): confira quanto falta, marque os recebimentos agendados que já caíram, registre o pagamento de agora (ele entra no Caixa) e confirme. Se a cliente for pagar depois, o restante vai para Pendências com a data combinada.
+6. Na linha também ficam o lápis (editar) e a lixeira (excluir). Excluir apaga a costura e as peças; os pagamentos continuam no Caixa.
 
 **Como cria:**
 
